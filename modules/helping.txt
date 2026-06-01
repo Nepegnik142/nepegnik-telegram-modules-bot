@@ -41,10 +41,10 @@ async def cmd_help(message: Message):
 Любые ошибки сообщайте на 
 
 ТГК в лс канала: @Nepegnik
-Steam:
-GitHub:  (Строго репозиторий проекта)
+Steam: https://steamcommunity.com/id/Nepegnik/
+GitHub: https://github.com/Nepegnik142/nepegnik-telegram-modules-bot/ (Строго репозиторий проекта)
 Поддержка проекта деньгами
-Карта номер карты ВТБ Даниил Александрович Н.
+Карта 2200240254843671 ВТБ Даниил Александрович Н.
 
 
 Любое комерческое пользование запрещено, будет пресекаться по закону
