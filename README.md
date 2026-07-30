@@ -27,7 +27,7 @@ telegram-bot/
 ### Шаг 1. Клонирование проекта
 
 ```bash
-git clone <url-репозитория>
+git clone https://github.com/Nepegnik142/nepegnik-telegram-modules-bot.git
 cd telegram-bot
 ```
 
