@@ -1,9 +1,10 @@
 import asyncio
 import logging
 import importlib.util
+import os
 import sys
 from pathlib import Path
-from aiogram import Bot, Dispatcher
+from aiogram import Bot, Dispatcher, Router
 from aiogram.fsm.storage.memory import MemoryStorage
 
 logging.basicConfig(
@@ -12,7 +13,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-BOT_TOKEN = "YOUR_BOT_TOKEN_HERE" //Токен бота
+BOT_TOKEN = os.environ.get("BOT_TOKEN")  # Токен бота берётся из переменной окружения
 
 modules_all = "modules"
 
@@ -32,7 +33,15 @@ modules_config = [
 
 def load_module(module_config: dict) -> tuple[Router | None, str]:
     try:
-        full_path = Path(modules_all) / module_config["module_path"]
+        modules_dir = Path(modules_all).resolve()
+        full_path = (modules_dir / module_config["module_path"]).resolve()
+
+        if not full_path.is_relative_to(modules_dir):
+            error_msg = (
+                f"Модуль {module_config['module_name']} находится вне папки {modules_all}: "
+                f"{module_config['module_path']}"
+            )
+            return None, error_msg
 
         if not full_path.exists():
             error_msg = f"Модуль {module_config['module_name']} не найден по пути: {full_path}\nНапишите разработчику NEPEGNIK"
@@ -86,6 +95,12 @@ async def load_and_update_modules(dp: Dispatcher) -> None:
             logger.warning(f"  - {fail}")
 
 async def main():
+    if not BOT_TOKEN:
+        raise RuntimeError(
+            "Не задана переменная окружения BOT_TOKEN. "
+            "Получите токен у @BotFather и экспортируйте его перед запуском бота."
+        )
+
     bot = Bot(token=BOT_TOKEN)
     storage = MemoryStorage()
     dp = Dispatcher(storage=storage)
