@@ -3,7 +3,7 @@ import logging
 import importlib.util
 import sys
 from pathlib import Path
-from aiogram import Bot, Dispatcher
+from aiogram import Bot, Dispatcher, Router
 from aiogram.fsm.storage.memory import MemoryStorage
 
 logging.basicConfig(
@@ -12,7 +12,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-BOT_TOKEN = "YOUR_BOT_TOKEN_HERE" //Токен бота
+BOT_TOKEN = "YOUR_BOT_TOKEN_HERE" #Токен бота
 
 modules_all = "modules"
 
