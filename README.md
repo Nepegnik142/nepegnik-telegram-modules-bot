@@ -15,11 +15,14 @@
 
 ```
 telegram-bot/
-├── main.py                  # Главный файл: инициализация бота и загрузка модулей
+├── main.py                # Главный файл: конфигурация модулей и запуск бота
+├── core.py                # Общие утилиты: логирование и загрузка модулей
 ├── modules/               # Папка с модулями бота
+│   ├── shared.py          # Общие утилиты и тексты для модулей
 │   ├── example.py         # Пример модуля с базовыми командами
 │   └── admin.py           # Пример модуля с админ‑командами
-└── README.md            # Эта документация
+├── requirements.txt       # Зависимости проекта
+└── README.md              # Эта документация
 ```
 
 ## Установка и настройка
@@ -113,15 +116,28 @@ modules_config = [
 2. В файле создайте роутер и определите обработчики:
 
    ```python
-   from aiogram import Router
-   from aiogram.types import Message
    from aiogram.filters import Command
+   from aiogram.types import Message
 
-   router = Router()
+   from modules.shared import create_router
+
+   router = create_router()
 
    @router.message(Command("mymodule"))
    async def cmd_mymodule(message: Message):
        await message.answer("Привет из моего модуля!")
+   ```
+
+   Для команд, которые просто отвечают готовым текстом, используйте общие
+   утилиты из `modules/shared.py`:
+
+   ```python
+   from modules.shared import create_router, register_fallback, register_text_command
+
+   router = create_router()
+
+   register_text_command(router, "mymodule", "Привет из моего модуля!")
+   register_fallback(router)  # ответ на неизвестные команды
    ```
 3. Добавьте описание модуля в `modules_config` в `main.py`.
 4. Перезапустите бота.
