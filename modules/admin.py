@@ -1,9 +1,5 @@
-from aiogram import Router
-from aiogram.types import Message
-from aiogram.filters import Command
+from modules.shared import ADMIN_TEXT, create_router, register_text_command
 
-router = Router()
+router = create_router()
 
-@router.message(Command("admin"))
-async def cmd_admin(message: Message):
-    await message.answer("Панель администратора")
+register_text_command(router, "admin", ADMIN_TEXT)
